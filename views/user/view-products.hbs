@@ -1,0 +1,482 @@
+{{!-- ----header----- --}}
+
+<header>
+     <nav class="navbar navbar-expand-lg navbar-dark" style="background: #FFFFFF;" >
+        <div class="container-fluid">
+             <div class="d-flex flex-row">
+            <div class="collapse navbar-collapse  "  id="mob-navbar">
+
+                  {{!-- <form class="d-flex ms-5">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" >
+
+
+
+                    
+                   
+                    <button class="btn btn-outline-warning " type="submit">Search</button>
+                </form> --}}
+                
+
+                     {{#each category}}
+                    
+                <ul class="navbar-nav mb-2 mb-lg-0 mx-auto  " >
+                      <li class="nav-item ms-4 ">
+                        <a class="nav-link active text-dark" aria-current="page" href="/categoryView/{{this.Category}}"> <h5>Shop by {{this.Category}}</h5> </a>
+                    </li> 
+                    
+                      {{!-- <li class="nav-item ms-4 ">
+                        <a class="nav-link active text-dark" aria-current="page" href="/categoryView/{{this.Category}}"> <h5>Shop by Cat</h5> </a>
+                    </li>  
+                     
+                           
+
+
+                     <li class="nav-item ms-4 ">
+                        <a class="nav-link active text-dark" aria-current="page" href="/categoryView/{{this.Category}}"> <h5>Shop by Bird</h5> </a> --}}
+                    </li> 
+                </ul>
+               {{/each}}
+               
+                
+            </div>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mob-navbar" aria-label="Toggle">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <p style="font-weight: 500;" class="me-5">
+FREE DELIVERY  ALL OVER INDIA! </P>
+           
+        </div>
+    </nav>
+
+</header>
+
+
+{{!-- ----hea------ --}}
+
+{{!-- ------banner---- --}}
+
+<div id="carouselExampleTouch" class="carousel slide " data-mdb-touch="false">
+ 
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="/banner-images/1.webp" class="d-block w-100" alt="Wild Landscape" />
+      <div class="carousel-caption d-none d-md-block">
+        {{!-- <h5>First slide label</h5>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> --}}
+      </div>
+    </div>
+   
+    
+  </div>
+ 
+  
+</div>
+
+
+{{!-- ------ban----- --}}
+
+
+{{!-- --------categories---- --}}
+
+<h1 class="text-center mt-5"
+	style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size:x-large; font-weight: 700; color: rgb(80, 79, 79);">
+	 CATEGORIES </h1>
+
+
+{{!-- ------cattt------ --}}
+
+<section style="background-color: white;" class="page-section mt-5" >
+	<div class="container">
+
+		<div class="row">
+			{{#each category}}
+			<div class="col-md-4 ">
+				<div class="team-member text-center">
+					<a href="/categoryView/{{this.Category}}">
+						<img class="mx-auto " src="/category-images/{{this._id}}.jpg" height="270px;"
+							alt="..." /></a>
+					<h4>{{this.Category}}</h4>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+</section>
+
+{{!-- --------catttt------ --}}
+
+
+
+
+
+<section class="mb-3" style="background-color: #FFFFFF;">
+    <h1 class="text-center mt-5"
+	style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size:x-large; font-weight: 700; color: rgb(80, 79, 79);">
+	OUR PRODUCTS</h1>
+  <div class="container  py-5">
+    <div class="row">
+      {{#each products}}
+      <div class="col-md-12 col-lg-4 mb-4 mb-lg-0 mt-5  d-flex align-items-stretch" >
+        <div class="card">
+          <div class="d-flex justify-content-between p-3">
+            <p class="lead mb-0"></p>
+            {{#if Offerpercentage}}
+            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+              style="width: 40px; height: 40px;">
+              <p class="text-white mb-0 small">{{Offerpercentage}}% </p>
+            </div>
+
+            {{else if catOfferPercentage }}
+
+            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+              style="width: 40px; height: 40px;">
+              <p class="text-white mb-0 small">{{catOfferPercentage}}% </p>
+            </div>
+
+
+            {{/if}}
+          </div>
+          <img src="/product-images/{{this._id}}.jpg" class="card-img-top" alt="Laptop" />
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5><a style="text-decoration: none;" href="/product-details/{{this._id}}" class="">{{this.Brand}}</a>
+              </h5>
+              {{#if Offerpercentage }}
+          <s>   <h5 class=" text-danger">  {{this.Orginalprice}} </h5>  </s> 
+              {{else}}
+              <h5 class=" text-danger"> <s>{{this.actualPrice}}</s> </h5>
+              {{/if}}
+
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+              <p class="mb-0">{{this.Details}}</p>
+              {{!-- {{#if Orginalprice}}
+              <h5 class="text-dark mb-0">{{this.Price}}</h5>
+              {{/if}} --}}
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+             {{#if Orginalprice}}
+              <h4 class=" mb-0">RS:{{this.Price}} 
+              </h4>
+               {{/if}}
+              <div class="ms-auto text-warning">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="addToCart('{{this._id}}')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- Remove the container if you want to extend the Footer to full width. -->
+
+<footer class="footer-section mt-5">
+<hr>
+    <div class="container">
+
+
+    </div>
+    </div>
+    <div class="footer-content pt-5 pb-5">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 mb-50">
+                <div class="footer-widget">
+                    <div class="footer-logo mx-4">
+                        <a class="navbar-brand" style="color: rgb(255, 255, 255);" href="/"><i class="fa-solid fa-square-p" style="color: white; font-size: 2rem; "></i> <strong class="text-primary">
+                                PETSCARE</strong></a>
+                    </div>
+                    {{!-- <div class="footer-text mx-4">
+                        <p>shoppie which sells items of ready-made clothing</p>
+                    </div> --}}
+                    <div class="footer-social-icon mx-4">
+                        <span>Follow us</span>
+                        <a href="#"><i class="fab fa-facebook-f facebook-bg"></i></a>
+                        <a href="#"><i class="fab fa-twitter twitter-bg"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g google-bg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                <div class="footer-widget mx-4">
+                    <div class="footer-widget-heading">
+                        <h3>Useful Links</h3>
+                    </div>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">about</a></li>
+                        <li><a href="#">services</a></li>
+                        <li><a href="#">portfolio</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Our Services</a></li>
+                        <li><a href="#">Expert Team</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Latest News</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                <div class="footer-widget mx-4">
+                    <div class="footer-widget-heading">
+                        <h3>Subscribe</h3>
+                    </div>
+                    <div class="footer-text mb-25">
+                        <p>Don’t miss to subscribe to our new feeds, kindly fill the form below.</p>
+                    </div>
+                    <div class="subscribe-form mx-4">
+                        <form action="#">
+                            <input type="text" placeholder="Email Address">
+                            <button><i class="fab fa-telegram-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="copyright-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2021, All Right Reserved <a style="text-decoration: none;" href="">PetsCare</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+                    <div class="footer-menu">
+                        <ul >
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Policy</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+
+    ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .footer-section {
+        background: #f7f3f3;
+        position: relative;
+    }
+
+    .footer-cta {
+        border-bottom: 1px solid #373636;
+    }
+
+    .single-cta i {
+        color: #158BD5;
+        font-size: 30px;
+        float: left;
+        margin-top: 8px;
+    }
+
+    .cta-text {
+        padding-left: 15px;
+        display: inline-block;
+    }
+
+    .cta-text h4 {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .cta-text span {
+        color: #757575;
+        font-size: 15px;
+    }
+
+    .footer-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-pattern img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 330px;
+        background-size: cover;
+        background-position: 100% 100%;
+    }
+
+    .footer-logo {
+        margin-bottom: 30px;
+    }
+
+    .footer-logo img {
+        max-width: 200px;
+    }
+
+    .footer-text p {
+        margin-bottom: 14px;
+        font-size: 14px;
+        color: #7e7e7e;
+        line-height: 28px;
+    }
+
+    .footer-social-icon span {
+        color: rgb(0, 0, 0);
+        display: block;
+        font-size: 20px;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    .footer-social-icon a {
+        color: #fff;
+        font-size: 16px;
+        margin-right: 15px;
+    }
+
+    .footer-social-icon i {
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        line-height: 38px;
+        border-radius: 50%;
+    }
+
+    .facebook-bg {
+        background: #3B5998;
+    }
+
+    .twitter-bg {
+        background: #55ACEE;
+    }
+
+    .google-bg {
+        background: #158BD5;
+    }
+
+    .footer-widget-heading h3 {
+        color: rgb(0, 0, 0);
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .footer-widget-heading h3::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        height: 2px;
+        width: 50px;
+        background: #158BD5;
+    }
+
+    .footer-widget ul li {
+        display: inline-block;
+        float: left;
+        width: 50%;
+        margin-bottom: 12px;
+    }
+
+    .footer-widget ul li a:hover {
+        color: #158BD5;
+    }
+
+    .footer-widget ul li a {
+        color: #887c7c;
+        text-transform: capitalize;
+    }
+
+    .subscribe-form {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .subscribe-form input {
+        width: 100%;
+        padding: 14px 28px;
+        background: #e2dfdf;
+        border: 1px solid #e6e0e0;
+        color: #fff;
+    }
+
+    .subscribe-form button {
+        position: absolute;
+        right: 0;
+        background: #158BD5;
+        padding: 13px 20px;
+        border: 1px solid #158BD5;
+        top: 0;
+    }
+
+    .subscribe-form button i {
+        color: #fff;
+        font-size: 22px;
+        transform: rotate(-6deg);
+    }
+
+    .copyright-area {
+        background: #202020;
+        padding: 25px 0;
+    }
+
+    .copyright-text p {
+        margin: 0;
+        font-size: 14px;
+        color: #878787;
+    }
+
+    .copyright-text p a {
+        color: #158BD5;
+    }
+
+    .footer-menu li {
+        display: inline-block;
+        margin-left: 20px;
+    }
+
+    .footer-menu li:hover a {
+        color: #158BD5;
+    }
+
+    .footer-menu li a {
+        font-size: 14px;
+        color: #878787;
+    }
+</style>
+
+<style>
+    body{background-color: rgb(255, 255, 255)}.product{background-color: #eee}.brand{font-size: 13px}.act-price{color:red;font-weight: 700}.dis-price{text-decoration: line-through}.about{font-size: 14px}.color{margin-bottom:10px}label.radio{cursor: pointer}label.radio input{position: absolute;top: 0;left: 0;visibility: hidden;pointer-events: none}label.radio span{padding: 2px 9px;border: 2px solid #ff0000;display: inline-block;color: #ff0000;border-radius: 3px;text-transform: uppercase}label.radio input:checked+span{border-color: #ff0000;background-color: #ff0000;color: #fff}.btn-danger{background-color: #ff0000 !important;border-color: #ff0000 !important}.btn-danger:hover{background-color: #da0606 !important;border-color: #da0606 !important}.btn-danger:focus{box-shadow: none}.cart i{margin-right: 10px}
+</style>
+
+
+
+

@@ -1,0 +1,39 @@
+
+<section>
+    <div class="container mt-5 ">
+      
+        <table class="table" id="usersTable">
+  <thead>
+    <tr>
+     <th>No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email address</th>
+      <th scope="col">Phone Number</th>
+      <th>Options</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+      {{#each users}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      
+      <td>{{this.Name}}</td>
+      <td>{{this.Email}}</td>
+       <td>{{this.phone}}</td>
+     
+      <td >
+        {{#if blocked}}
+        <a href="/admin/unblock-user/{{this._id}}" class="btn btn-primary">UnBlock</a>
+        {{else}}
+        <a class="= btn btn-danger"  href="/admin/block-user/{{this._id}}"  onclick=" return confirm('Do you want to block uer:{{this.Name}}') ">Block</a>
+        {{/if}}
+       </td>
+      
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+ 
+    </div>
+</section>

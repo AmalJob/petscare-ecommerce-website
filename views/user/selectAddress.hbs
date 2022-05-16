@@ -1,0 +1,105 @@
+
+    <div class="container">
+<section id="sec">
+
+   
+    <div class="col-md-6">
+
+   
+<div class="card p-3 py-3 mt-3 card text-center">
+    <h4>Delivery Address</h4>
+    <div class="p-3 card">
+        <div class="row">
+    {{#each address}}
+   <div class="col-md-12">
+        <div class="p-3 card-child">
+            <div class="d-flex flex-row align-items-center"> <a href=""> <span class="circle"> <i class="fa fa-home"></i> </span> </a> 
+            
+                <div class="d-flex flex-column ms-3">
+                    <h6 class="fw-bold">Home</h6> <span>{{this.name}}, <br>{{this.address}},<br>{{this.pincode}}, <br> {{this.mobile}}</span>
+                </div>
+            </div>
+             <div>
+                 <a class="btn btn-primary" href="/editAddress/{{this._id}}">Edit</a> 
+                  <a class="btn btn-danger" href="/deleteAddress/{{this._id}}">Delete</a>
+             </div>
+        </div>
+        </div>
+         {{/each}}
+        </div>
+       
+        <div class="p-3 card-child mt-4 py-4">
+            <div class="d-flex flex-row align-items-center"> <a style="text-decoration: none;" href="">  <span class="circle-3"> <i class="fa fa-plus"></i> </span> </a>  
+                <div class="d-flex flex-column ms-3 mt-1">
+       <a href="/addAddress">         <h6 class="fw-bold text-primary">Add New Address</h6>       </a>          
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+</section>
+  </div>
+
+<style>
+    #sec {
+    {{!-- background-color: #eee; --}}
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+.card {
+    width: 400px;
+    border-radius: 18px;
+    border: none
+}
+
+
+
+.card-child {
+    border: 3px solid blue;
+    border-radius: 16px
+}
+
+.circle {
+    background-color: #ebdffb;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    color: #9553ea;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px
+}
+
+.circle-2 {
+    background-color: #fbebdf;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    color: #ea9253;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px
+}
+
+.circle-3 {
+    background-color: blue;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px
+}
+</style>
+
+
+

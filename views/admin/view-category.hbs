@@ -1,0 +1,32 @@
+<section>
+    <div class="container ">
+        <div class="  mt-5">
+            <a href="/admin/add-category" class="btn btn-success float-end">Add Category</a>
+        </div>
+        
+        <table class="table mt-5">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Category</th>
+      <th scope="col">Image</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each category}}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{this.Category}}</td>
+     
+      <td><img style="width: 50px; height: 50px;" src="/category-images/{{this._id}}.jpg" alt=""></td>
+      <td>
+         <a class="btn btn-success" href="/admin/edit-category/{{this._id}}">edit</a>
+        <a class="btn btn-danger" href="/admin/delete-category/{{this._id}}" onclick=" return confirm('are you sure want to delete{{this.Category}}')" >delete</a>
+        </td>
+    </tr>
+   {{/each}}
+  </tbody>
+</table>
+    </div>
+</section>

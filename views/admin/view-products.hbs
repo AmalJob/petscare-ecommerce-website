@@ -1,0 +1,48 @@
+<section>
+    <div class="container ">
+        <div class="  mt-5">
+            <a href="/admin/add-product" class="btn btn-success float-end">Add Product</a>
+        </div>
+        
+        <table class="table mt-5">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Brand</th>
+       <th scope="col">Category</th>
+
+      <th scope="col">Details</th>
+      <th scope="col">Original Price</th>
+      <th scope="col">Offer Percentage</th>
+      <th scope="col">Price</th>
+       <th scope="col">Qty</th>
+      <th scope="col">Image</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each products}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      <td>{{this.Brand}}</td>
+       <td>{{this.Category}}</td>
+      <td>{{this.Details}}</td>
+      <td>{{this.Orginalprice}}</td>
+      <td>{{this.Offerpercentage}}</td>
+     
+      <td>{{this.Price}}</td>
+
+      <td>{{this.Qty}}</td>
+      <td><img style="width: 50px; height: 50px;" src="/product-images/{{this._id}}.jpg" alt=""></td>
+      <td><img style="width: 50px; height: 50px;" src="/product-images2/{{this._id}}.jpg" alt=""></td>
+      <td><img style="width: 50px; height: 50px;" src="/product-images3/{{this._id}}.jpg" alt=""></td>
+      <td>
+         <a class="btn btn-success" href="/admin/edit-product/{{this._id}}">edit</a>
+        <a class="btn btn-danger" href="/admin/delete-product/{{this._id}}" onclick=" return confirm('are you sure want to delete{{this.Name}}')" >delete</a>
+        </td>
+    </tr>
+   {{/each}}
+  </tbody>
+</table>
+    </div>
+</section>

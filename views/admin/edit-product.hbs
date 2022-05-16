@@ -1,0 +1,58 @@
+<section>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2 class="text-center">Edit Product</h2>
+            <form method="post" enctype="multipart/form-data" action="/admin/edit-product/{{product._id}}">
+ 
+    <label for="">Brand</label>
+    <input type="text" class="form-control"  name="Brand" value="{{product.Brand}}">
+      <select class="form-select mt-3" name="Category"  class="form-control" aria-label="Default select example">
+  <option   selected>{{product.Category}}</option>
+  <option value="DOG">DOG</option>
+  <option value="CAT">CAT</option>
+  <option value="BIRDS">BIRDS</option>
+</select>
+  
+    <label for="">Details</label>
+    <input type="text" class="form-control"  name="Details" value="{{product.Details}}">
+    <label for=""> Original Price</label>
+    <input type="text" class="form-control"  name="Orginalprice" value="{{product.Orginalprice}}">
+     <label for=""> Offer Percentage</label>
+    <input type="text" class="form-control"  name="Offerpercentage" value="{{product.Offerpercentage}}">
+ 
+  <label for="">Price</label>
+    <input type="text" class="form-control"  name="Price" value="{{product.Price}} " hidden >
+  
+    <label for="">Qty</label>
+    <input type="text" class="form-control"  name="Qty" value="{{product.Qty}}">
+
+ <label for="">Image</label>
+ <img src="/product-images/{{product._id}}.jpg" alt="" style="width: 100px;height: auto;" id="imgView">
+    <input type="file" class="form-control" name="Image" onchange="viewImage(event)" >   
+<label for="">Image2</label>
+ <img src="/product-images2/{{product._id}}.jpg" alt="" style="width: 100px;height: auto;" id="imgView2">
+    <input type="file" class="form-control" name="Image2" onchange="viewImage2(event)" > 
+    <label for="">Image3</label>
+ <img src="/product-images3/{{product._id}}.jpg" alt="" style="width: 100px;height: auto;" id="imgView3">
+    <input type="file" class="form-control" name="Image3" onchange="viewImage3(event)" > 
+  <button type="submit" class="btn btn-primary mt-4">Submit</button>
+</form>
+        </div>
+    </div>
+</div>
+</section>
+
+<script>
+    function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+
+function viewImage2(event){
+        document.getElementById('imgView2').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage3(event){
+        document.getElementById('imgView3').src=URL.createObjectURL(event.target.files[0])
+    }
+
+</script>
