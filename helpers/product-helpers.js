@@ -524,7 +524,8 @@ addCategoryOffer: (data) => {
        let catStartDateIso = new Date(date);
        console.log('this is a category offer.................... ',date);
        return new Promise(async(res,rej)=>{
-           let data= await db.get().collection(collection.CATEGORY_OFFERS).find({Starting:{$lte:catStartDateIso}}).toArray();
+           let data= await db.get().collection(collection.CATEGORY_OFFERS).find({startDateIso:{$lte:catStartDateIso}}).toArray();
+           
            if (data.length > 0) {
                await data.map(async (onedata) => {
                    console.log("da",data);
