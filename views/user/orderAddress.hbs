@@ -20,8 +20,11 @@
               <div class="col">
                 <div class="form-outline">
                   <label class="form-label" for="form7Example2">Name</label>
-                  <input type="text" id="name" name="name" class="form-control" />
+                  <input type="text" id="name" onkeyup="validateName()" name="name" class="form-control" />
                 </div>
+                 <div>
+    <p class="text-danger" id="errorName"></p>
+  </div>
               </div>
             </div>
 
@@ -40,15 +43,21 @@
             <!-- Email input -->
             <div class="form-outline mb-4">
               <label class="form-label" for="form7Example5">Pincode</label>
-              <input type="number" id="pincode" name="pincode" class="form-control" required />
+              <input type="number" id="pincode" onkeyup="validatePincode()" name="pincode" class="form-control" required />
             </div>
+             <div>
+    <p class="text-danger" id="errorPincode"></p>
+  </div>
 
             <!-- Number input -->
             <div class="form-outline mb-4">
               <label class="form-label" for="form7Example6">Phone</label>
-              <input type="number" id="phone" name="phone" class="form-control" required />
-              <input type="text" name="userId" value="{{user._id}}" hidden>
+              <input type="number" id="phone" onkeyup="validatePhoneNUmber()" name="phone" class="form-control" required />
+              <input type="text"  name="userId" value="{{user._id}}" hidden>
             </div>
+             <div>
+    <p class="text-danger" id="errorPhone"></p>
+  </div>
            
         </div>
       </div>
@@ -137,14 +146,7 @@
   </div>
  </div>
  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-
- 
-    <div class="col-md-4    ">
-      <div class="card mb-4">
+  <div class="card mb-4">
         <div class="card-header py-3">
           <h5 class="mb-0">Summary</h5>
         </div>
@@ -210,12 +212,13 @@
             </li>
           </ul>
 
-          <button  type="submit" class="btn btn-primary btn-lg btn-block">
+          <button  type="submit" id="formSubmit" onclick=" return validateForm()" class="btn btn-primary btn-lg btn-block">
             Make purchase
+            
           </button>
-        </div>
-      </div>
-    </div>
+            <p class="text-danger" id="submitError"></p>
+</div>
+
     
     
 
@@ -397,3 +400,69 @@
 
 </script>
 
+<script>
+var nameError=document.getElementById('errorName');
+
+var PincodeError=document.getElementById('errorPincode');
+var phoneError=document.getElementById('errorPhone')
+var submitError=document.getElementById('submitError');
+
+
+
+
+function validateName(){
+    var name = document.getElementById('name').value;
+
+    if(name.length==0){
+        nameError.innerHTML= 'Name is required';
+        return false;
+    }
+    if(!name.match(/^[a-zA-Z ]{2,30}$/)){
+        nameError.innerHTML='Write full name';
+        return false;
+    }
+    nameError.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i>';
+    return true;
+}
+
+ 
+function validatePincode(){
+    var message = document.getElementById('pincode').value;
+    var required=6;
+    var left=required-message.length;
+
+    if(left>0){
+      PincodeError.innerHTML=left+'more character required';
+        return false;
+    }
+
+   PincodeError.innerHTML= '<i class="fa-solid fa-circle-check text-success"></i>';
+    return true;
+}
+
+function validatePhoneNUmber(){
+    var message = document.getElementById('phone').value;
+    var required=10;
+    var left=required-message.length;
+
+    if(left>0){
+      phoneError.innerHTML=left+'more character required';
+        return false;
+    }
+
+  phoneError.innerHTML= '<i class="fa-solid fa-circle-check text-success"></i>';
+    return true;
+}
+
+
+function validateForm(){
+    if(!validateName() ||  !validatePincode() || !validatePhoneNUmber()){
+
+        // submitError.style.display='block';
+        submitError.innerHTML='Please fix error to submit';
+        setTimeout(function(){submitError.style.display='none';},2000);
+        return false;
+    }
+}
+
+        </script>

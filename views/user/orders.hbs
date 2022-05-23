@@ -53,9 +53,16 @@
                  <a href="/view-order-products/{{this._id}}" class="btn btn-dark text-light" >view/product</a>
                  {{#if Delivered}}
                  <a href="/returnOrder/{{this._id}}" class="btn btn-dark text-light  " style="margin-top: 1rem; width:7.4rem ;">return</a>
+                 {{/if}}
+                  {{#if Delivered}}
+                  {{else}}
+                 {{#if Cancelled}}
+                
                  {{else}}
                  <a href="/cancelOrder/{{this._id}}" class="btn btn-dark text-light  " style="margin-top: 1rem; width:7.4rem ;">cancel</a>
                  {{/if}}
+                 {{/if}}
+                
 
                  </div>
                   

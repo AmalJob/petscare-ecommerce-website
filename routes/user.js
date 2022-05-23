@@ -416,8 +416,10 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
   
 
   if(req.body['payment-method']==='COD'){
+    userHelpers.clearCart(req.session.user._id).then(()=>{
 
     res.json({codSuccess:true})
+    })
   }else if(req.body["payment-method"] == "Razorpay"){
     userHelpers.generateRazorpay(orderId,totalPrice).then((response)=>{
        res.json(response)
@@ -507,7 +509,9 @@ router.get("/success", (req, res) => {
       } else {
         userHelpers.changePaymentStatus(req.session.orderId).then(() => {
           req.session.couponTotal = null;
+          userHelpers.clearCart(req.session.user._id).then(()=>{
           res.redirect("/order-success");
+          })
         });
       }
     }
@@ -600,8 +604,11 @@ router.get('/categoryView/:id',verifyLogin, async(req,res)=>{
   let cartCount= await userHelpers.getCartCount(req.session.user._id)
   userHelpers.categoryView(Category).then((products)=>{
   console.log(products);
+  productHelpers.getAllCategory().then((category)=>{
+ 
 
-  res.render('user/categoryView',{products,user:req.session.user,cartCount,catView})
+  res.render('user/categoryView',{products,user:req.session.user,cartCount,catView,category})
+})
 })
 })
 
@@ -711,8 +718,10 @@ userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.q
 
 console.log("o",orderId);
   if(req.query.payment==='COD'){
+    userHelpers.clearCart(user._id).then(()=>{
 
     res.json({codSuccess:true})
+    })
   }else if (req.query.payment==='RAZORPAY'){
     userHelpers.generateRazorpay(orderId,totalPrice).then((response)=>{
        res.json(response)
@@ -784,7 +793,9 @@ router.post('/verify-payment',(req,res)=>{
       console.log("payment success");
     userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
       console.log("haiiiii");
+      userHelpers.clearCart(req.session.user._id).then(()=>{
       res.json({status:true})
+      })
      
     })
 

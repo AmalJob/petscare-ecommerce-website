@@ -312,7 +312,7 @@ return new Promise(async(resolve,reject)=>{
           db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
              
             db.get().collection(collection.ADDRESS_COLLECTION).insertOne(orderObj.deliveryDetails).then((respons)=>{
-              db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(order.userId)})
+            
               resolve(response.insertedId)
           })
         })
@@ -364,13 +364,25 @@ return new Promise(async(resolve,reject)=>{
           db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
              
             
-              db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(order.userId)})
+          
               resolve(response.insertedId)
           
         })
     })
     })
         
+    },
+    clearCart:(id)=>{
+        console.log("idd",id);
+        return new Promise((resolve,reject)=>{
+
+            db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(id)}).then((response)=>{
+    
+                resolve(response)
+            })
+        })
+        
+
     },
     getCartProductList:(userId)=>{
         return new Promise(async(resolve,reject)=>{
@@ -488,7 +500,9 @@ return new Promise(async(resolve,reject)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
                 $set:{
-                  status:"Cancelled"
+                  status:"Cancelled",
+                  Cancelled:true,
+                  Delivered:false
                     
                 
                 }
