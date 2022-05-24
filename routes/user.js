@@ -448,6 +448,7 @@ router.get("/success", (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   let totalPrice = req.session.total;
+  let orderid=req.session.orderId
  
 
   let totals = totalPrice.toString();
@@ -473,7 +474,7 @@ router.get("/success", (req, res) => {
       } else {
         req.session.couponTotal = null;
         userHelpers.clearCart(req.session.user._id).then(()=>{
-            userHelpers.changePaymentStatus(req.session.orderId).then(() => {
+            userHelpers.changePaymentStatus(orderid).then(() => {
           res.redirect("/order-success");
           })
         });
