@@ -278,13 +278,12 @@ return new Promise(async(resolve,reject)=>{
           let dateIso= new Date()
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
-          let status=order['payment-method']==='COD'?'placed':'Cancelled'
-          var Cancelled          ;
+          let status=order['payment-method']==='COD'?'Placed':'Cancelled'
           if(status=='Cancelled'){
-              Cancelled=true
-          }else{
-              Cancelled=false
-          }
+            var Cancelled=true
+         }else if(status=='Placed'){
+             Cancelled=false
+         }
           let orderObj={
               deliveryDetails:{
                   name:order.name,
@@ -336,10 +335,11 @@ return new Promise(async(resolve,reject)=>{
           let dateIso= new Date()
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
-          let status=order['payment-method']==='COD'?'placed':'Cancelled'
-          var Cancelled          ;
+          let status=order['payment-method']==='COD'?'Placed':'Cancelled'
+          console.log("st",status);
+          var Cancelled=false;       
           if(status=='Cancelled'){
-              Cancelled=true
+             var Cancelled=true
           }else{
               Cancelled=false
           }
@@ -621,7 +621,8 @@ return new Promise(async(resolve,reject)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
                 $set:{
-                  status:"Placed"
+                  status:"Placed",
+                  Cancelled:false
                     
                 
                 }
