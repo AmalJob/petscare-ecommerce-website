@@ -392,7 +392,6 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
     totalPrice = val.toFixed(2)
     let totals = totalPrice.toString()
     req.session.total = totals;
-    req.session.orderId=orderId
   
       
     const create_payment_json = {
@@ -448,8 +447,7 @@ router.get("/success", (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   let totalPrice = req.session.total;
-  let orderid=req.session.orderId
- 
+  
 
   let totals = totalPrice.toString();
   const execute_payment_json = {
@@ -474,7 +472,7 @@ router.get("/success", (req, res) => {
       } else {
         req.session.couponTotal = null;
         userHelpers.clearCart(req.session.user._id).then(()=>{
-            userHelpers.changePaymentStatus(orderid).then(() => {
+            userHelpers.changePaymentStatus(req.session.orderId).then(() => {
           res.redirect("/order-success");
           })
         });
@@ -671,7 +669,7 @@ userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.q
       totalPrice = val.toFixed(2)
       let totals = totalPrice.toString()
       req.session.total = totals;
-      req.session.orderId=orderId
+      console.log(totals);
         
       const create_payment_json = {
         "intent": "sale",

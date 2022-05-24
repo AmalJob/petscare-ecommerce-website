@@ -621,8 +621,8 @@ return new Promise(async(resolve,reject)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
                 $set:{
-                  status:"Placed",
-                  Cancelled:false
+                  status:"Placed"
+                  
                     
                 
                 }
