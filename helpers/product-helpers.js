@@ -9,10 +9,10 @@ var objectId=require('mongodb').ObjectId
 module.exports={
 
     addProduct:(product,callback)=>{
-        console.log(product);
+       
         db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product).then(async(data)=>{
             let products= await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-           console.log(products);
+         
     
         
            for(i=0;i<products.length;i++){
@@ -35,7 +35,7 @@ module.exports={
          
              
             db.get().collection(collection.PRODUCT_COLLECTION).findOneAndUpdate({_id:objectId(ids)},{$set:{"Price":Price}})
-            console.log(data);
+           
            callback(data.insertedId)
         })
     },
@@ -47,7 +47,7 @@ module.exports={
     },deleteProduct:(proId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.PRODUCT_COLLECTION).remove({_id:objectId(proId)}).then((response)=>{
-                console.log(response);
+               
                 resolve(response)
             })
         })
@@ -60,11 +60,9 @@ module.exports={
         })
     },
     updateProduct:(proId,proDetails)=>{
-        console.log("det",proDetails);
+      
         let OP =  parseInt( proDetails.Orginalprice)
         let OfP =  parseInt( proDetails.Offerpercentage)
-
-        console.log("ffff",OP,OfP);
 
         var Price
         if(OfP){
@@ -94,7 +92,7 @@ module.exports={
     getAllUsers:()=>{
         return new Promise(async (res,rej)=>{
             let users= await db.get().collection(collection.USER_COLLECTION).find().toArray()
-            console.log(users);
+           
             res(users)
         })
     },
@@ -121,7 +119,7 @@ module.exports={
             })
         })
     },addCategory:(category,callback)=>{
-        console.log(category);
+      
         db.get().collection(collection.CATEGORY_COLLECTION).insertOne(category).then((data)=>{
             console.log(data);
            callback(data.insertedId)
@@ -163,7 +161,7 @@ module.exports={
     getAllOrders:()=>{
         return new Promise(async (res,rej)=>{
             let orders= await db.get().collection(collection.ORDER_COLLECTION).find().sort({date:-1}).toArray()
-            console.log(orders);
+           
             res(orders)
         })
     },
@@ -255,20 +253,19 @@ module.exports={
       return new Promise( async (resolve,reject)=>{
           let report= await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
           let amount=report[0].totalAmount
-          console.log("rep",report)
-          console.log(("am",amount));
+         
           var totalReport=0
           var OP
           for(i=0;i<report.length;i++){
              OP =   report[i].totalAmount
            
-            console.log("of",OP);
+           
            
             totalReport= parseInt(totalReport)+OP
            
         }
        
-        console.log("tot",totalReport);
+     
 
 
           resolve(report,totalReport)
@@ -337,7 +334,7 @@ getdailyIncome:()=>{
                 $limit:7
             }
         ]).toArray()
-        console.log("daily",dailySale);
+       
         resolve(dailySale)
     })
 },
@@ -372,7 +369,7 @@ getCurrentDaySale:()=>{
         ]).toArray()
         let data=0
        todaySale.map(val => data= val.total)
-       console.log("daa",data);
+     
         resolve(data)
     })
 },
@@ -406,7 +403,7 @@ getYearlySale:()=>{
             
            
         ]).toArray()
-        console.log("year",yearlySale)
+      
         
         resolve(yearlySale)
     })
@@ -432,7 +429,7 @@ countsalemonth:()=>{
             },
           
         ]).toArray()
-        console.log("mon",dailySale);
+      
         resolve(dailySale)
     })
 
@@ -522,20 +519,18 @@ addCategoryOffer: (data) => {
    },  //set the catoffer
    startCategoryOffer:(date)=>{
        let catStartDateIso = new Date(date);
-       console.log('this is a category offer.................... ',date);
+     
        return new Promise(async(res,rej)=>{
            let data= await db.get().collection(collection.CATEGORY_OFFERS).find({startDateIso:{$lte:catStartDateIso}}).toArray();
            
            if (data.length > 0) {
                await data.map(async (onedata) => {
-                   console.log("da",data);
+                 
 
                    
 
                    let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: onedata.category, offer: { $exists: false },Offerpercentage:""}).toArray();
-                   console.log("pro",products);
-                   console.log("one",onedata.category);
-
+                   
                    await products.map(async (product) => {
                        let actualPrice = product.Orginalprice
                        console.log("propri",product.Price);
@@ -562,7 +557,7 @@ addCategoryOffer: (data) => {
 
    },
    deleteCatOffer:(id)=>{
-       console.log("id",id);
+      
     return new Promise(async(res,rej)=>{
         let categoryOffer= await db.get().collection(collection.CATEGORY_OFFERS).findOne({_id:objectId(id)})
        
@@ -597,19 +592,19 @@ addCategoryOffer: (data) => {
 monthlyReport: () => {
     return new Promise(async (res, rej) => {
       let today = new Date();
-      console.log("dat",today);
+    
       let end = moment(today).format('YYYY/MM/DD')
-      console.log("end",end);
+     
       let start = moment(end).subtract(30, 'days').format('YYYY/MM/DD')
       
-      console.log("start",start);
+    
       let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ date: { $gte: start, $lte: end }, status: { $ne: "Cancelled" } }).toArray()
-      console.log("ords",orderSuccess);
+     
       let orderTotal = await db.get().collection(collection.ORDER_COLLECTION).find({ date: { $gte: start, $lte: end } }).toArray()
       let orderSuccessLength = orderSuccess.length
       let orderTotalLength = orderTotal.length
       let orderFailLength = orderTotalLength - orderSuccessLength
-      console.log("fail",orderFailLength);
+    
       let total = 0;
       let paypal = 0;
       let razorpay = 0;
@@ -636,7 +631,7 @@ monthlyReport: () => {
         razorpay:  razorpay,
         currentOrders: orderSuccess
       }
-      console.log(data);
+     
       res(data)
     })
   },salesReport:(date)=>{

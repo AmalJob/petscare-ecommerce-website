@@ -43,8 +43,7 @@ const verifyBlock=(req,res,next)=>{
 router.get('/',async function(req, res, next) {
   let user=req.session.user
   let todayDate = new Date().toISOString().slice(0, 10);
-  console.log(todayDate);
-  console.log(user);
+ 
   let cartCount=null
   let catOff = await productHelpers.startCategoryOffer(todayDate);
   if(req.session.user){
@@ -79,7 +78,7 @@ router.get('/signup',async(req,res)=>{
 router.post('/signup',(req,res)=>{
   let refer = createReferal.alphaNumeric("uppercase", 2, 3);
   req.body.refer = refer;
-  console.log("re",req.body);
+
   if (req.body.referedBy != "") {
     userHelpers
       .checkReferal(req.body.referedBy)
@@ -156,43 +155,7 @@ router.post('/signup',(req,res)=>{
 })
 
 
-// hhhhh---------
 
-// router.post("/signup", (req, res) => {
-//   let refer = createReferal.alphaNumeric("uppercase", 2, 3);
-//   req.body.refer = refer;
-//   if (req.body.referedBy != "") {
-//     userHelpers
-//       .checkReferal(req.body.referedBy)
-//       .then((data) => {
-//         req.body.referedBy = data[0]._id;
-//         req.body.wallet = 100;
-//         userHelpers.doSignin(req.body).then((response) => {
-//           req.session.loggedIn = true;
-//           req.session.user = response.user;
-//           res.redirect("/");
-//         });
-//       })
-//       .catch(() => {
-//         req.session.referErr = "Sorry No such Code Exists";
-//         res.redirect("/signup");
-//       });
-//   } else {
-//     userHelpers.doSignin(req.body).then((response) => {
-//       if (response.usererr) {
-//         req.session.usererr = true;
-//         res.redirect("/signup");
-//       } else {
-//         req.session.loggedIn = true;
-//         req.session.user = response.user;
-//         res.redirect("/");
-//       }
-//     });
-//   }
-// });
-
-
-//hlooooo------------------
 
 var signupSuccess
 router.get('/signupOtp',(req,res)=>{
@@ -251,7 +214,7 @@ router.get('/product-details/:id', async (req,res)=>{
   if(req.session.user){
     cartCount=await userHelpers.getCartCount(req.session.user._id)
    }
-  console.log(product);
+  
   
   if(req.session.user){
     let user=req.session.user
@@ -272,7 +235,7 @@ router.get('/otpLogin',(req,res)=>{
 
 router.post('/otpLogin', (req, res) => {
   var phone = req.body.number;
-  console.log(phone);
+ 
   userHelpers.checkPhone(phone).then((num)=>{
     if(num){
     if(num.blocked){
@@ -307,8 +270,7 @@ router.post('/otpLogin', (req, res) => {
 router.post('/otpSubmit/:phone',(req,res)=>{
   let otp=req.body.otp
   let phonenumber=req.params.phone
-  console.log(phonenumber);
-  console.log("otp :",otp);
+ 
   client.verify.services(serviceId).verificationChecks.create({
     to:`+91${phonenumber}`,
     code:otp
@@ -352,7 +314,7 @@ router.get('/logout',(req,res)=>{
 })
 router.get('/cart',verifyLogin,async(req,res,next)=>{
   let products= await userHelpers.getCartProducts(req.session?.user?._id)
-  console.log(products);
+ 
   let totalValue=0
   if(products.length>0){
 
@@ -364,7 +326,7 @@ router.get('/cart',verifyLogin,async(req,res,next)=>{
 })
 
 router.get('/add-to-cart/:id',(req,res)=>{
-  console.log("api call");
+ 
   userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
     res.json({status:true})
   })
@@ -393,12 +355,12 @@ router.get('/addNewAddress',verifyLogin,async(req,res)=>{
   res.render('user/orderAddress',{total,user,userDetails})
 })
 router.post('/addNewAddress',async(req,res)=>{
-  console.log('bod',req.body)
+ 
  
 
   let products=await userHelpers.getCartProductList(req.body.userId)
  
-    console.log("wallett",req.session.walletTotal);
+  
   if (req.session.couponTotal || req.session.walletTotal) {
     
     if (req.session.couponTotal) {
@@ -430,7 +392,7 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
     totalPrice = val.toFixed(2)
     let totals = totalPrice.toString()
     req.session.total = totals;
-    console.log(totals);
+  
       
     const create_payment_json = {
       "intent": "sale",
@@ -478,7 +440,7 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
   }
 })
 
-  console.log(req.body);
+
 })
 
 router.get("/success", (req, res) => {
@@ -527,14 +489,6 @@ router.get('/orders',verifyLogin, async(req,res)=>{
   var orders= await userHelpers.getOrderUserDetails(req.session.user?._id)
   let user=req.session.user
   
- 
-
-
-    
- 
- 
-//   console.log("ordst",status);
-//  console.log("orders",orders);
   res.render('user/orders',{orders,user})
 })
 
@@ -546,7 +500,7 @@ router.get('/view-order-products/:id',verifyLogin,async(req,res)=>{
 })
 router.get('/userProfile',verifyLogin,async(req,res)=>{
   let user= await userHelpers.getUserDetails(req.session.user?._id)
-  console.log("refeee",user.refer);
+ 
   let refer=user.refer
 
   let referalLink = "http://localhost:3000/signup?refer=" + refer;
@@ -565,23 +519,14 @@ router.post('/editUserProfile',verifyLogin,(req,res)=>{
  
   let userId=req.body.userId
   req.session.user.Name=req.body.Name
-  console.log("hh"+userId);
+  
   userHelpers.updateUserProfile(userId,req.body).then(()=>{
     res.redirect('/userProfile')
    
   })
 })
 
-// router.post('/changePassword',(req,res)=>{
-//   userHelpers.changePassword(req.body).then((data)=>{
-//     if(data.status){
-//       res.redirect('/userProfile')
-//     }else{
-//     console.log("amal",data.err);
-//       res.render('user/editUserProfile')
-//     }
-//   })
-// })
+
 router.post('/changePassword',verifyLogin,(req,res)=>{
   userHelpers.changePassword(req.body).then((response)=>{
   
@@ -603,7 +548,7 @@ router.get('/categoryView/:id',verifyLogin, async(req,res)=>{
   let catView= await productHelpers.getAllCategory()
   let cartCount= await userHelpers.getCartCount(req.session.user._id)
   userHelpers.categoryView(Category).then((products)=>{
-  console.log(products);
+ 
   productHelpers.getAllCategory().then((category)=>{
  
 
@@ -632,14 +577,13 @@ router.get('/address',verifyLogin, async(req,res)=>{
 router.get('/editAddress/:id',verifyLogin, async (req,res)=>{
   let user1=req.session.user?._id
   let address= await userHelpers.getAddressDetails(req.params.id,user1)
-  console.log("hiiiiii",address);
+
   res.render('user/editAddress',{address});
 })
 
 router.post('/editAddress/:id',verifyLogin,(req,res)=>{
   let id=req.params.id
-  console.log("hii",id);
-  console.log("hloo",req.body);
+ 
   userHelpers.updateAddress(req.params.id,req.body).then(()=>{
     res.redirect('/address')
    
@@ -648,7 +592,7 @@ router.post('/editAddress/:id',verifyLogin,(req,res)=>{
 
 router.get('/deleteAddress/:id',verifyLogin,(req,res)=>{
   const userId=req.params.id
-  console.log(userId)
+ 
   userHelpers.deleteAddres(userId).then((response)=>{
     res.redirect('/address')
   })
@@ -662,9 +606,9 @@ router.get('/addAddress',async(req,res)=>{
 
 router.post('/addAddress',verifyLogin,(req,res)=>{
   let userId = ObjectId(req.session.user._id)
-  console.log(userId);
+
   req.body.userId = userId
-  console.log(req.body)
+
   
  userHelpers.addAddress(req.body,userId).then(()=>{
        res.redirect('/address')
@@ -683,7 +627,7 @@ router.get('/orderAddressSelection',verifyLogin,async(req,res)=>{
 })
 
 router.post('/orderAddressSelection',async(req,res)=>{
-  console.log("body",req.query.addressId,req.query.userId);
+
  
  if (req.session.couponTotal || req.session.walletTotal) {
     
@@ -696,27 +640,17 @@ router.post('/orderAddressSelection',async(req,res)=>{
   else{
     totalPrice= await userHelpers.getTotalAmount(req.session.user._id)
   }
-  console.log("tot",totalPrice);
+
 
   let products=await userHelpers.getCartProductList(req.session.user._id)
-  console.log("p",products);
-  // let totalPrice=await userHelpers.getTotalAmount(req.session.user._id)
-  // console.log("t",totalPrice);
-  let user= await userHelpers.getUserDetails(req.session.user._id)
-  console.log("u",user);
-  let address= await userHelpers.getAddressDetails(req.query.addressId,req.session.user._id)
-  console.log("jj",address);
-userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.query.code,req.query.userr).then((orderId)=>{
-  console.log("ppp",req.query.code);
-  console.log("pay",req.query.payment);
-  console.log("us",req.query.userr);
   
-     
-
+  let user= await userHelpers.getUserDetails(req.session.user._id)
  
+  let address= await userHelpers.getAddressDetails(req.query.addressId,req.session.user._id)
+  
+userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.query.code,req.query.userr).then((orderId)=>{
+  
 
-
-console.log("o",orderId);
   if(req.query.payment==='COD'){
     userHelpers.clearCart(user._id).then(()=>{
 
@@ -788,11 +722,11 @@ console.log("o",orderId);
 })
 
 router.post('/verify-payment',(req,res)=>{
-  console.log(("body",req.body));
+
   userHelpers.verifyPayment(req.body).then(()=>{
-      console.log("payment success");
+
     userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-      console.log("haiiiii");
+ 
       userHelpers.clearCart(req.session.user._id).then(()=>{
       res.json({status:true})
       })
@@ -800,7 +734,7 @@ router.post('/verify-payment',(req,res)=>{
     })
 
   }).catch((err)=>{
-    console.log("error",err);
+  
     res.json({status:false,errorrMsg:''})
 
   })
@@ -822,7 +756,7 @@ router.get('/returnOrder/:id', verifyLogin,(req,res)=>{
 router.post("/couponApply",verifyLogin, (req, res) => {
   let id = req.session.user._id;
   userHelpers.couponValidate(req.body, id).then((response) => {
-    console.log("resp",response);
+
     req.session.couponTotal = response.total;
     if (response.success) {
       res.json({ couponSuccess: true, total: response.total });
@@ -838,15 +772,15 @@ router.post("/couponApply",verifyLogin, (req, res) => {
 
 router.post("/applayWallet", async (req, res) => {
   var user = req.session.user._id;
-  console.log("body",req.body);
+ 
   
   let ttl = parseInt(req.body.Total);
   let walletAmount = parseInt(req.body.wallet);
   let userDetails = await userHelpers.getUserDetails(user);
-  console.log("userdwall",userDetails);
+  
   if (userDetails.wallet >= walletAmount) {
     let total = ttl - walletAmount;
-    console.log("total",total);
+  
     userHelpers.applayWallet(walletAmount, user).then(() => {
       req.session.walletTotal = total;
       res.json({ walletSuccess: true, total });
@@ -863,7 +797,7 @@ router.get('/wallet',async(req,res)=>{
   let refer=user.refer
 
   let referalLink = "http://localhost:3000/signup?refer=" + refer;
-  console.log("link",referalLink);
+
   res.render('user/wallet',{user,referalLink})
 })
 

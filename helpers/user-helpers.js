@@ -278,7 +278,13 @@ return new Promise(async(resolve,reject)=>{
           let dateIso= new Date()
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
-          let status=order['payment-method']==='COD'?'placed':'pending'
+          let status=order['payment-method']==='COD'?'placed':'Cancelled'
+          var Cancelled          ;
+          if(status=='Cancelled'){
+              Cancelled=true
+          }else{
+              Cancelled=false
+          }
           let orderObj={
               deliveryDetails:{
                   name:order.name,
@@ -296,7 +302,8 @@ return new Promise(async(resolve,reject)=>{
               status:status,
               date: date,
               time: time,
-              dateIso: dateIso
+              dateIso: dateIso,
+              Cancelled:Cancelled
              
           }
           let user = order.userId 
@@ -321,7 +328,7 @@ return new Promise(async(resolve,reject)=>{
     },
     placeOrderr:(order,products,total,method,user,code,user1)=>{
        
-        console.log("g",user)
+      
       
       
         return new Promise((resolve,reject)=>{
@@ -329,7 +336,13 @@ return new Promise(async(resolve,reject)=>{
           let dateIso= new Date()
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
-          let status=order['payment-method']==='COD'?'placed':'pending'
+          let status=order['payment-method']==='COD'?'placed':'Cancelled'
+          var Cancelled          ;
+          if(status=='Cancelled'){
+              Cancelled=true
+          }else{
+              Cancelled=false
+          }
           let orderObj={
               deliveryDetails:{
                   name:order.name,
@@ -347,12 +360,13 @@ return new Promise(async(resolve,reject)=>{
               status:status,
               date: date,
               time: time,
-              dateIso: dateIso
+              dateIso: dateIso,
+              Cancelled:Cancelled
              
           }
            
           let user = user1
-          console.log("uss",user);
+         
           db.get().collection(collection.COUPON_COLLECTION).updateOne({ Coupon: code },
               {
                   $push: {
@@ -429,7 +443,7 @@ return new Promise(async(resolve,reject)=>{
                
             ]).toArray()
            
-           console.log("oo",orderItems);
+          
             resolve(orderItems)
         })
     },getUserDetails:(userId)=>{
@@ -444,7 +458,7 @@ return new Promise(async(resolve,reject)=>{
         })
     },
     updateUserProfile:(userId,userDetails)=>{
-        console.log("hi"+userId);
+      
         
        
         return new Promise((resolve,reject)=>{
@@ -468,10 +482,10 @@ return new Promise(async(resolve,reject)=>{
 
 
        ,changePassword: (details) => {
-        console.log("amal",details);
+       
         return new Promise(async (resolve, reject) => {
             let user =await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(details.userId) })
-            console.log("achu",user);
+           
             if (user) {
                 bcrypt.compare(details.Password, user.Password).then(async(status) => {
                     if (status) {
@@ -511,10 +525,10 @@ return new Promise(async(resolve,reject)=>{
             })
         })
     },getUserAddressDetails:(userId)=>{
-        console.log("man",userId);
+       
         return new Promise(async(resolve,reject)=>{
            let address= await db.get().collection(collection.ADDRESS_COLLECTION).find({userId:objectId(userId)}).toArray()
-          console.log("hiii",address);
+         
             resolve(address)
         })
 
@@ -522,16 +536,15 @@ return new Promise(async(resolve,reject)=>{
     }
     
     ,getAddressDetails:(addressId)=>{
-        console.log("mm",addressId);
+       
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ADDRESS_COLLECTION).findOne({_id:objectId(addressId)}).then((address)=>{
-               console.log("llll",address);
+             
                 resolve(address)
             })
         })
     },updateAddress:(addressId,addressDetails)=>{
-        console.log("hh",addressId);
-        console.log("jj",addressDetails);
+        
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ADDRESS_COLLECTION).updateOne({_id:objectId(addressId)},{
                 $set:{
@@ -542,7 +555,7 @@ return new Promise(async(resolve,reject)=>{
                 
                 }
             }).then((response)=>{
-                console.log("jjj",response);
+               
                 resolve()
             })
         })
@@ -555,7 +568,7 @@ return new Promise(async(resolve,reject)=>{
         })
     },addAddress:(address)=>{
        
-        console.log(address);
+      
         return new Promise((resolve,reject)=>{
 
        
@@ -566,7 +579,7 @@ return new Promise(async(resolve,reject)=>{
     })
     },
     generateRazorpay:(orderId,total)=>{
-        console.log("order",orderId);
+      
       return new Promise((resolve,reject)=>{
        
         var options={
@@ -576,10 +589,10 @@ return new Promise(async(resolve,reject)=>{
         };
         instance.orders.create(options, function(err,order){
             if(err){
-                console.log("error:",err);
+               
             }else{
 
-                console.log("ord",order);
+               
                 resolve(order)
             }
         })
@@ -588,7 +601,7 @@ return new Promise(async(resolve,reject)=>{
     },
     verifyPayment:(details)=>{
         return new Promise((resolve,reject)=>{
-            console.log("deta",details);
+          
 
            const crypto = require('crypto');
             let hmac = crypto.createHmac('sha256','9dkrFazf7QSEfRbSGYQD6c4A')
@@ -631,9 +644,9 @@ return new Promise(async(resolve,reject)=>{
         })
     },
     couponValidate: (data, user) => {
-        console.log("fffff",user);
+       
         var da= data
-        console.log("da",da);
+       
         return new Promise(async(res,rej)=>{
             obj = {}
                 let date=new Date()
@@ -641,29 +654,28 @@ return new Promise(async(resolve,reject)=>{
                 let coupon= await db.get().collection(collection.COUPON_COLLECTION).findOne({Coupon:data.Coupon})
                 console.log("c",coupon);
                 if(coupon){
-                    console.log("cou",coupon);
-                    console.log("u",user);
+                   
                         let users = coupon.Users
-                        console.log("users",users);
+                       
                         let userChecker = users.includes(user)
-                        console.log("chec",userChecker);
+                     
                         if(userChecker){
                             obj.couponUsed=true;
-                            console.log("obj",obj);
+                           
                             res(obj)
                         }else{
                             if(date <= coupon.Expiry){
-                                console.log("t",data);
+                              
                                 let total = parseInt(data.Total)
                                 let percentage = parseInt(coupon.Offer)
                                 let discountVal = ((total * percentage) / 100).toFixed()
                                 obj.total = total - discountVal
                                 obj.success = true
-                                console.log("obj",obj)
+                              
                                 res(obj)
                             }else{
                                 obj.couponExpired = true
-                                  console.log("Expired");
+                                 
                                    res(obj)
                             }
                         }
@@ -671,7 +683,7 @@ return new Promise(async(resolve,reject)=>{
                         obj.invalidCoupon = true
 
                         
-                        console.log("invalid");
+                        
                         res(obj)
 
                     }   

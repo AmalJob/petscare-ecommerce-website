@@ -87,7 +87,7 @@ router.post("/report", (req, res) => {
 
 router.get('/getChartDates', async(req,res)=>{
   let dailySales= await productHelpers.getdailyIncome()
-  console.log("dailysa",dailySales);
+ 
   let yearlySales= await productHelpers.getYearlySale()
   let month= await productHelpers.countsalemonth()
 
@@ -106,9 +106,7 @@ router.get('/view-products',verifyLogin,(req,res,next)=>{
    res.render('admin/add-product',{admin:true,user});
  })
  router.post('/add-product',(req,res)=>{
-   console.log(req.body)
- console.log(req.files.Image);
-
+   
   productHelpers.addProduct(req.body,(id)=>{
     let image=req.files?.Image
     let image2=req.files?.Image2
@@ -118,7 +116,7 @@ router.get('/view-products',verifyLogin,(req,res,next)=>{
 
         res.render('admin/add-product',{admin:true,user})
       }else{
-        console.log(err)
+       
       }
     })
     image2.mv('./public/product-images2/'+id+'.jpg',(err,done)=>{
@@ -129,14 +127,14 @@ router.get('/view-products',verifyLogin,(req,res,next)=>{
  })
  router.get('/delete-product/:id',verifyLogin,(req,res)=>{
    const proId=req.params.id
-   console.log(proId)
+  
    productHelpers.deleteProduct(proId).then((Response)=>{
      res.redirect('/admin/view-products')
    })
  })
  router.get('/edit-product/:id',verifyLogin, async (req,res)=>{
    let product= await productHelpers.getProductDetails(req.params.id)
-   console.log(product);
+  
    res.render('admin/edit-product',{product,admin:true,user});
  })
  router.post('/edit-product/:id',verifyLogin,(req,res)=>{
@@ -221,8 +219,6 @@ router.get('/add-category',verifyLogin, function (req,res) {
 })
 
 router.post('/add-category',verifyLogin,(req,res)=>{
-  console.log(req.body)
-console.log(req.files.Image);
 
  productHelpers.addCategory(req.body,(id)=>{
    let image=req.files.Image
@@ -243,7 +239,7 @@ console.log(req.files.Image);
 
 router.get('/delete-category/:id',verifyLogin,(req,res)=>{
   const userId=req.params.id
-  console.log(userId)
+ 
   productHelpers.deleteCategory(userId).then((response)=>{
     res.redirect('/admin/view-category')
   })
@@ -251,7 +247,7 @@ router.get('/delete-category/:id',verifyLogin,(req,res)=>{
 
 router.get('/edit-category/:id',verifyLogin, async (req,res)=>{
   let category= await productHelpers.getcategoryDetails(req.params.id)
-  console.log(category);
+ 
   res.render('admin/edit-category',{category,admin:true});
 })
 router.post('/edit-category/:id',verifyLogin,(req,res)=>{
@@ -289,8 +285,7 @@ router.get('/orderProductDetails/:id',verifyLogin,async(req,res)=>{
 router.post('/statusUpdate',(req,res)=>{
   let status=req.body.status
   let orderId=req.body.orderId
-  console.log("hiii",status);
-  console.log("hloo",orderId);
+  
   
   productHelpers.statusUpdate(status,orderId).then((response)=>{
    res.json(true)
@@ -336,7 +331,6 @@ router.get("/category-offers", async (req, res) => {
 
 router.get("/addCategory-offers", async (req, res) => {
   let category = await productHelpers.getAllCategory();
-  console.log("vat",category);
   res.render("admin/addCategory-offer", {
     admin: true,
     category
