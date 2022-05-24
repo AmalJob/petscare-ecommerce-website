@@ -517,45 +517,45 @@ addCategoryOffer: (data) => {
            res(categoryOffer)
        })
    },  //set the catoffer
-   startCategoryOffer:(date)=>{
-       let catStartDateIso = new Date(date);
+//    startCategoryOffer:(date)=>{
+//        let catStartDateIso = new Date(date);
      
-       return new Promise(async(res,rej)=>{
-           let data= await db.get().collection(collection.CATEGORY_OFFERS).find({startDateIso:{$lte:catStartDateIso}}).toArray();
+//        return new Promise(async(res,rej)=>{
+//            let data= await db.get().collection(collection.CATEGORY_OFFERS).find({startDateIso:{$lte:catStartDateIso}}).toArray();
            
-           if (data.length > 0) {
-               await data.map(async (onedata) => {
+//            if (data.length > 0) {
+//                await data.map(async (onedata) => {
                  
 
                    
 
-                   let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: onedata.category, offer: { $exists: false },Offerpercentage:""}).toArray();
+//                    let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ Category: onedata.category, offer: { $exists: false },Offerpercentage:""}).toArray();
                    
-                   await products.map(async (product) => {
-                       let actualPrice = product.Orginalprice
-                       console.log("propri",product.Price);
-                       let newPrice = (((product.Price) * (onedata.catOfferPercentage)) / 100)
-                       newPrice = newPrice.toFixed()
-                       console.log("hhh",actualPrice, newPrice, onedata.catOfferPercentage);
-                       db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
-                           {
-                               $set: {
-                                   actualPrice: actualPrice,
-                                   Price: (actualPrice - newPrice),
-                                   offer: true,
-                                   catOfferPercentage: onedata.catOfferPercentage
-                               }
-                           })
-                   })
-               })
-               res();
-           }else{
-               res()
-           }
+//                    await products.map(async (product) => {
+//                        let actualPrice = product.Orginalprice
+//                        console.log("propri",product.Price);
+//                        let newPrice = (((product.Price) * (onedata.catOfferPercentage)) / 100)
+//                        newPrice = newPrice.toFixed()
+//                        console.log("hhh",actualPrice, newPrice, onedata.catOfferPercentage);
+//                        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
+//                            {
+//                                $set: {
+//                                    actualPrice: actualPrice,
+//                                    Price: (actualPrice - newPrice),
+//                                    offer: true,
+//                                    catOfferPercentage: onedata.catOfferPercentage
+//                                }
+//                            })
+//                    })
+//                })
+//                res();
+//            }else{
+//                res()
+//            }
 
-       })
+//        })
 
-   },
+//    },
    deleteCatOffer:(id)=>{
       
     return new Promise(async(res,rej)=>{

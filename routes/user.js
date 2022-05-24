@@ -45,7 +45,7 @@ router.get('/',async function(req, res, next) {
   let todayDate = new Date().toISOString().slice(0, 10);
  
   let cartCount=null
-  let catOff = await productHelpers.startCategoryOffer(todayDate);
+  // let catOff = await productHelpers.startCategoryOffer(todayDate);
   if(req.session.user){
    cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
@@ -53,7 +53,7 @@ router.get('/',async function(req, res, next) {
     productHelpers.getAllCategory().then((category)=>{
       console.log("products",products);
 
-      res.render('user/view-products', {products,user,category,cartCount,catOff});
+      res.render('user/view-products', {products,user,category,cartCount});
     })
    
    })
@@ -669,7 +669,7 @@ userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.q
       totalPrice = val.toFixed(2)
       let totals = totalPrice.toString()
       req.session.total = totals;
-      console.log(totals);
+     
         
       const create_payment_json = {
         "intent": "sale",
