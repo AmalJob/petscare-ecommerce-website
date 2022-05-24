@@ -43,9 +43,7 @@ const verifyBlock=(req,res,next)=>{
 router.get('/',async function(req, res, next) {
   let user=req.session.user
   let todayDate = new Date().toISOString().slice(0, 10);
- 
   let cartCount=null
-  // let catOff = await productHelpers.startCategoryOffer(todayDate);
   if(req.session.user){
    cartCount=await userHelpers.getCartCount(req.session.user._id)
   }
