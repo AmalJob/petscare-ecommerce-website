@@ -390,7 +390,7 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
     totalPrice = val.toFixed(2)
     let totals = totalPrice.toString()
     req.session.total = totals;
-  
+    req.session.orderId=orderId
       
     const create_payment_json = {
       "intent": "sale",
@@ -398,8 +398,8 @@ userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
           "payment_method": "paypal"
       },
       "redirect_urls": {
-          "return_url": "http://localhost:3000/success",
-          "cancel_url": "http://localhost:3000/orderFail"
+          "return_url": "https://www.petscare.lol/success",
+          "cancel_url": "https://www.petscare.lol/orderFail"
       },
       "transactions": [{
           "item_list": {
@@ -667,7 +667,7 @@ userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.q
       totalPrice = val.toFixed(2)
       let totals = totalPrice.toString()
       req.session.total = totals;
-     
+     req.session.orderId=orderId
         
       const create_payment_json = {
         "intent": "sale",

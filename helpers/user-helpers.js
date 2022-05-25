@@ -279,10 +279,11 @@ return new Promise(async(resolve,reject)=>{
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
           let status=order['payment-method']==='COD'?'Placed':'Cancelled'
+          var Cancelled=false;
           if(status=='Cancelled'){
             var Cancelled=true
          }else if(status=='Placed'){
-             Cancelled=false
+           var Cancelled=false
          }
           let orderObj={
               deliveryDetails:{
@@ -336,12 +337,12 @@ return new Promise(async(resolve,reject)=>{
           let date= moment(dateIso).format('YYYY/MM/DD')
           let time= moment(dateIso).format('HH:mm:ss')
           let status=order['payment-method']==='COD'?'Placed':'Cancelled'
-          console.log("st",status);
+        
           var Cancelled=false;       
           if(status=='Cancelled'){
              var Cancelled=true
           }else{
-              Cancelled=false
+            var Cancelled=false
           }
           let orderObj={
               deliveryDetails:{
