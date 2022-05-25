@@ -502,7 +502,7 @@ router.get('/userProfile',verifyLogin,async(req,res)=>{
  
   let refer=user.refer
 
-  let referalLink = "http://localhost:3000/signup?refer=" + refer;
+  let referalLink = "https://www.petscare.lol/signup?refer=" + refer;
   console.log("link",referalLink);
 
   res.render('user/userProfile',{user,referalLink})
@@ -675,8 +675,8 @@ userHelpers.placeOrderr(address,products,totalPrice,req.query.payment,user,req.q
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://localhost:3000/success",
-            "cancel_url": "http://localhost:3000/orderFail"
+            "return_url": "https://www.petscare.lol/success",
+            "cancel_url": "https://www.petscare.lol/orderFail"
         },
         "transactions": [{
             "item_list": {
